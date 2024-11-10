@@ -1,0 +1,25 @@
+jaffle_shop:
+  target: prod
+  outputs:
+    prod:
+      type: bigquery
+      method: service-account
+      project: 'geoff-kaufman'
+      schema: 'test'
+      threads: 4
+      keyfile: ./bq-user-json.json
+      timeout_seconds: 600
+      location: US # Optional, one of US or EU
+      priority: interactive
+      retries: 1
+    dev:
+      type: bigquery
+      method: service-account
+      project: 'geoff-kaufman'
+      schema: 'test'
+      threads: 4
+      keyfile: ./bq-user-json.json
+      timeout_seconds: 600
+      location: US # Optional, one of US or EU
+      priority: interactive
+      retries: 1

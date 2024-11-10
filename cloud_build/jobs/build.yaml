@@ -1,0 +1,42 @@
+steps:
+
+  - name: 'gcr.io/cloud-builders/gsutil'
+    id: setup
+    script: |
+      sh cloud_build/pre_run_tasks.sh
+    secretEnv: ['BQ_USER_JSON']
+
+  - name: 'ghcr.io/dbt-labs/dbt-bigquery:1.6.0'
+    id: dbt
+    script: |
+      python cloud_build/dbt_wrapper.py 'dbt deps'
+      python cloud_build/dbt_wrapper.py 'dbt build'
+    allowFailure: true
+    env:
+      - 'BUILD_ID=$BUILD_ID'
+
+  - name: 'python'
+    id: post_run
+    script: |
+      pip install -r cloud_build/requirements.txt >> log.txt
+      python cloud_build/post_run_tasks.py --write_state_artifacts y
+    env:
+    - 'BUILD_ID=$BUILD_ID'
+    - 'TRIGGER_NAME=$TRIGGER_NAME'
+    - 'BRANCH_NAME=$BRANCH_NAME'
+    secretEnv: ['SLACK_WEBHOOK', 'CLOUD_BUILD_DATASET_ID', 'BQ_USER_JSON']
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/$PROJECT_ID/secrets/bq_user_json/versions/latest
+    env: 'BQ_USER_JSON'
+  - versionName: projects/$PROJECT_ID/secrets/cloudbuild_dbt_slack_webhook/versions/latest
+    env: 'SLACK_WEBHOOK'
+  - versionName: projects/$PROJECT_ID/secrets/cloud_build_dataset_id/versions/latest
+    env: 'CLOUD_BUILD_DATASET_ID'
+
+options:
+  logging: GCS_ONLY
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
+timeout: 5400s
