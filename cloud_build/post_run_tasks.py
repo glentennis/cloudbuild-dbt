@@ -145,7 +145,7 @@ def insert_events_to_bigquery(dbt_invocations):
             'branch_name': os.environ['BRANCH_NAME']
         })
 
-    bq_insert_rows_from_dicts(f'{os.ENVIRON['CLOUD_BUILD_DATASET_ID']}.dbt_invocations', dbt_invocations)
+    bq_insert_rows_from_dicts(f'{os.environ['CLOUD_BUILD_DATASET_ID']}.dbt_invocations', dbt_invocations)
 
 
 def main(args):

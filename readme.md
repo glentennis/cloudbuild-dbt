@@ -32,6 +32,8 @@ Now that you're sold, here are instructions on how to spin this up:
 
 Since Google Cloud Build does not currently support git submodules, you'll have to physically copy the cloud build code into your dbt project. If I ever push updates to the code, you can come back and do it again! Not perfect, but much better than making any big changes to the dbt project you know and love.
 
+- In your dbt_project.yml, you will need to set `profile: 'default'`
+
 ## 2) Create a BigQuery Service Account
 
 You will need to:
