@@ -4,7 +4,7 @@ steps:
     id: setup
     script: |
       sh cloud_build/pre_run_tasks.sh
-    secretEnv: ['BQ_USER_JSON']
+    secretEnv: ['SLACK_WEBHOOK', 'CLOUD_BUILD_DATASET_ID', 'BQ_USER_JSON', 'ARTIFACTS_BUCKET']
 
   - name: 'ghcr.io/dbt-labs/dbt-bigquery:1.6.0'
     id: dbt
@@ -12,7 +12,10 @@ steps:
       python cloud_build/dbt_wrapper.py 'dbt deps'
       python cloud_build/dbt_wrapper.py 'dbt build --full-refresh -s state:modified+ --state prod_artifacts --target ci --defer'
     allowFailure: true
+    secretEnv: ['SLACK_WEBHOOK', 'CLOUD_BUILD_DATASET_ID', 'BQ_USER_JSON', 'ARTIFACTS_BUCKET']
     env:
+    - 'PROJECT_ID=$PROJECT_ID'
+    - 'BUILD_ID=$BUILD_ID'
     - '_PR_NUMBER=$_PR_NUMBER'
 
   - name: 'python'
@@ -24,14 +27,18 @@ steps:
     - 'BUILD_ID=$BUILD_ID'
     - 'TRIGGER_NAME=$TRIGGER_NAME'
     - 'BRANCH_NAME=$BRANCH_NAME'
-    secretEnv: ['SLACK_WEBHOOK']
+    secretEnv: ['SLACK_WEBHOOK', 'CLOUD_BUILD_DATASET_ID', 'BQ_USER_JSON', 'ARTIFACTS_BUCKET']
 
 availableSecrets:
   secretManager:
-  - versionName: projects/$PROJECT_ID/secrets/BQ_USER_JSON/versions/latest
+  - versionName: projects/$PROJECT_ID/secrets/cloud_build_dbt_bq_service_account_json/versions/latest
     env: 'BQ_USER_JSON'
-  - versionName: projects/$PROJECT_ID/secrets/cloudbuild_dbt_slack_webhook/versions/latest
+  - versionName: projects/$PROJECT_ID/secrets/cloud_build_dbt_slack_webhook/versions/latest
     env: 'SLACK_WEBHOOK'
+  - versionName: projects/$PROJECT_ID/secrets/cloud_build_dataset_id/versions/latest
+    env: 'CLOUD_BUILD_DATASET_ID'
+  - versionName: projects/$PROJECT_ID/secrets/cloud_build_dbt_artifacts_bucket/versions/latest
+    env: 'ARTIFACTS_BUCKET'
 
 options:
   logging: GCS_ONLY
