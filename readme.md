@@ -2,11 +2,14 @@
 
 This repo provides a relatively turnkey way to run dbt on Google Cloud Build (GCB), providing a similar experience to dbtCloud.
 
+It's largely based on this repo, which runs dbt on Github Actions: https://github.com/C00ldudeNoonan/simple-dbt-runner
+
 # How does this compare to dbtCloud?
 
 ## Advantages
 
 - Avoid dbtCloud subscription fees if you're running a tight ship 🚢
+- Great if your team prefers to run things on GCP
 - Slack alerts on dbt failures are more descriptive, and link directly to the compiled SQL of the failed model/test
 - All dbt invocations and Slack messages are logged to BigQuery, allowing you to analyze error rates and run times in BQ
 - Almost everything is version controlled (some configuration is required in GCB)
@@ -28,9 +31,12 @@ Now that you're sold, here are instructions on how to spin this up:
 - I am going to assume that you're an admin on the GCB project you're using. If not, you may need to request access for certain components as you go along. Fortunately, GCP is pretty good at telling you which permissions you need when you run into an issue.
 - 
 
-## 0) Fork this Repo
+## 0) Install this Repo to your dbt Project as a Submodule (or Just Copy It)
 
+This files in this repo should sit as a folder called `cloudbuild-dbt`, at the same level as your `models` and `dbt_project.yml`.
 
+- If you want to add it as a submodule, [these are the simplest instructions I've found](https://stackoverflow.com/questions/4754152/how-do-i-remove-version-tracking-from-a-project-cloned-from-git)
+- If you don't care about linking and fetching updates, you can also just download a ZIP of this repo and copy it to your dbt project.
 
 ## 2) Create a BigQuery Service Account
 
