@@ -53,7 +53,7 @@ if status == 'fail':
     sys.exit()
 
 # otherwise, run command
-os.system(f'echo "running: {COMMAND}"')
+os.system(f'echo "running: {COMMAND} --project-dir dbt"')
 os_result = os.system(COMMAND)
 
 dbt_invocation['completed_at'] = str(datetime.utcnow())
