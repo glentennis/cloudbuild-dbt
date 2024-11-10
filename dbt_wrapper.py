@@ -9,7 +9,7 @@ RETRY_FROM_STEP_NUM_PATH = 'retry_from_step_num.txt'
 CURRENT_STEP_NUM_PATH = 'current_step_num.txt'
 COMMAND = sys.argv[1]
 
-os.environ["DBT_PROFILES_DIR"] = "/workspace/cloudbuild-dbt/"
+os.environ["DBT_PROFILES_DIR"] = "/workspace/cloud_build/"
 
 dbt_invocation = {
     'invocation': COMMAND,
