@@ -28,9 +28,9 @@ Now that you're sold, here are instructions on how to spin this up:
 - I am going to assume that you're an admin on the GCB project you're using. If not, you may need to request access for certain components as you go along. Fortunately, GCP is pretty good at telling you which permissions you need when you run into an issue.
 - 
 
-## 0) Fork this Repo
+## 1) Copy the "cloud_build" folder here into your dbt project
 
-
+Since Google Cloud Build does not currently support git submodules, you'll have to physically copy the cloud build code into your dbt project. If I ever push updates to the code, you can come back and do it again! Not perfect, but much better than making any big changes to the dbt project you know and love.
 
 ## 2) Create a BigQuery Service Account
 
