@@ -54,7 +54,7 @@ def get_bq_client():
     print(os.getcwd())
     print(os.listdir())
     credentials = service_account.Credentials.from_service_account_file('bq-user-json.json')
-    bq_client = bigquery.Client(credentials)
+    bq_client = bigquery.Client(project=os.environ['PROJECT_ID'], credentials=credentials)
     return bq_client
 
 

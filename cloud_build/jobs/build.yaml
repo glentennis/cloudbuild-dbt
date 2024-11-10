@@ -26,6 +26,7 @@ steps:
       pip install -r cloud_build/requirements.txt >> log.txt
       python cloud_build/post_run_tasks.py --write_state_artifacts y
     env:
+    - 'PROJECT_ID=$PROJECT_ID'
     - 'BUILD_ID=$BUILD_ID'
     - 'TRIGGER_NAME=$TRIGGER_NAME'
     - 'BRANCH_NAME=$BRANCH_NAME'
