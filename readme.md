@@ -1,6 +1,6 @@
 # dbt on Google Cloud Build
 
-This repo provides a relatively turnkey way to run dbt on Google Cloud Build (GCB), providing a similar experience to dbtCloud.
+An adaptable example to run dbt on Google Cloud Build (GCB), providing a similar experience to dbtCloud.
 
 # How does this compare to dbtCloud?
 
