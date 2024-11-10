@@ -89,19 +89,20 @@ def build_failure_clause(results, artifact_urls):
 
 def send_slack_message(url, text, message_category='unspecified'):
     """Send a message to a Slack webhook."""
-    payload = {"text": text}
-    headers = {"Content-type": "application/json"}
-    response = requests.post(url, json=payload, headers=headers)
+    if '.com' in url:
+        payload = {"text": text}
+        headers = {"Content-type": "application/json"}
+        response = requests.post(url, json=payload, headers=headers)
 
-    if response.status_code == 200:
-        message_data = [{
-            'sent_at': str(datetime.now(UTC)),
-            'text': text,
-            'channel': 'alerts',
-            'message_category': message_category,
-            'build_id': os.environ['BUILD_ID'],
-        }]
-        bq_insert_rows_from_dicts(f'{os.ENVIRON['CLOUD_BUILD_DATASET_ID']}.slack_messages', message_data)
+        if response.status_code == 200:
+            message_data = [{
+                'sent_at': str(datetime.now(UTC)),
+                'text': text,
+                'channel': 'alerts',
+                'message_category': message_category,
+                'build_id': os.environ['BUILD_ID'],
+            }]
+            bq_insert_rows_from_dicts(f'{os.ENVIRON['CLOUD_BUILD_DATASET_ID']}.slack_messages', message_data)
 
 
 def handle_error_notifications(failure_clause, alert_type, dbt_invocations):
