@@ -26,7 +26,7 @@ Finally, cloudbuild-dbt has a much slower, and less friendly customer support st
 
 Now that you're sold, here are instructions on how to spin this up:
 
-## 0.0) Notes
+## 0) Notes
 
 - I am going to assume that you're an admin on the GCB project you're using. If not, you may need to request access for certain components as you go along. Fortunately, GCP is pretty good at telling you which permissions you need when you run into an issue.
 
